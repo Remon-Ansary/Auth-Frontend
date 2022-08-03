@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <h1>{{ useremail }}</h1>
-    <h1>{{ userRole }}</h1>
-    <input type="button" value="Logout" @click="logout" /> -->
     <nav class="navbar navbar-dark navbar-expand-sm bg-dark fixed-top">
       <div class="container">
         <a href="/" class="navbar-brand">
@@ -36,14 +33,26 @@
         </div>
       </div>
     </nav>
+    <div>
+      <div class="container">
+        <span v-if="userRole == 'admin'">
+          <h3>All registered users list</h3>
+        </span>
+        <div v-for="singleUser in userData" :key="singleUser.id">
+          <div class="usercard">{{ singleUser.useremail }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import axios from "axios"
 export default {
   data() {
     return {
       useremail: "",
       userRole: "",
+      userData: "",
     }
   },
   async created() {
@@ -51,6 +60,14 @@ export default {
       this.$router.push("/login")
     } else {
       this.userRole = this.$store.getters.getUser.role
+      if (this.userRole == "admin") {
+        axios
+          .get(process.env.VUE_APP_ROOT_API + "/allusers")
+          .then((response) => {
+            console.log(response.data)
+            this.userData = response.data
+          })
+      }
 
       this.useremail = this.$store.getters.getUser.useremail
     }
@@ -63,3 +80,10 @@ export default {
   },
 }
 </script>
+<style scoped>
+.usercard {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #0e0606;
+}
+</style>
