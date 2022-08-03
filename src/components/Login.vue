@@ -13,7 +13,7 @@ import AuthService from "@/services/AuthService.js"
 export default {
   data() {
     return {
-      username: "",
+      useremail: "",
       password: "",
       msg: "",
     }
@@ -31,7 +31,6 @@ export default {
         this.msg = response.msg
         const token = response.token
         const user = response.user
-        console.log("response", response)
 
         this.$store.dispatch("login", { token, user })
         this.$router.push("/")

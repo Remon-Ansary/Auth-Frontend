@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{ useremail }}</h1>
+    <h1>{{ userRole }}</h1>
     <input type="button" value="Logout" @click="logout" />
   </div>
 </template>
@@ -8,14 +9,21 @@
 export default {
   data() {
     return {
-      username: "",
+      useremail: "",
+      userRole: "",
     }
   },
   async created() {
     if (!this.$store.getters.isLoggedIn) {
       this.$router.push("/login")
+    } else {
+      this.userRole = this.$store.getters.getUser.role
+      if (this.userRole == "admin") {
+        this.$router.push("/admin")
+      }
+
+      this.useremail = this.$store.getters.getUser.useremail
     }
-    this.useremail = this.$store.getters.getUser.useremail
   },
   methods: {
     logout() {
