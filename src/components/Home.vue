@@ -18,9 +18,6 @@ export default {
       this.$router.push("/login")
     } else {
       this.userRole = this.$store.getters.getUser.role
-      if (this.userRole == "admin") {
-        this.$router.push("/admin")
-      }
 
       this.useremail = this.$store.getters.getUser.useremail
     }
